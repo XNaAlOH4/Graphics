@@ -3,3 +3,24 @@ body {
   padding: 0;
   background-color: #f1f1f1;
 }
+
+.Frow {
+  margin-bottom: 100px;
+}
+.Frow:last-child {
+  margin-bottom: 0;
+}
+
+.Frow:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.Fcell {
+  margin-right: 75%;
+}
+.Fcell:last-child {
+  margin-right: 25%; 
+}
+
