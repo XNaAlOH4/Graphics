@@ -13,12 +13,13 @@
     var path = document.createElement('path');
     path.id = "path";
     let pos = {x:10,y:10,length:1};
-    path.setAttribute('d',"M"+pos.x+" "+pos.y);
+    path.setAttribute('d',"M"+pos.x+" "+(pos.y+pos.length));
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*72/180),dy:pos.length*Math.sin(Math.PI*72/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
     //Starting from the top right corner
-    let vertex = [{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y-pos.length},{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
-                    {x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy}]
-    for(let i of vertex){path.setAttribute('d',path.getAttribute('d')+" q"+pos.x+" "+pos.y+" "+i.x+" "+i.y);}
+    let vertex = [{x:pos.x,y:pos.y+pos.length},{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y-pos.length},{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
+                  {x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy},
+                  {x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y+pos.length}]
+    for(let i = 1; i < vertex.length; i++){path.setAttribute('d',path.getAttribute('d')+" q"+(pos.x-vertex[i-1])+" "+(pos.y-vertex[i-1])+" "+(vertex[i].x-pos.x)+" "+(vertex[i].y-pos.y));}
     document.getElementById('shape').appendChild(path);
   </script>
   <div id="Top">
