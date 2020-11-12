@@ -1,1 +1,58 @@
-
+<!DOCTYPE html>
+<html lang="en"> <!--- IDK what this lang is for either seems useless? --->
+<head>
+  <!--- Importing p5.js Library ---->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js"></script>
+  <link href='stylish.css' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8"> <!---IDK what this is for, cause if I don't add it nothing changes ---->
+  <title>Sparks</title>
+  <!--- Probably wanna add an image with no background or just circular background 
+  <link rel="shortcut icon" href="Spark.png"> ---->
+</head>
+<body>
+  <h1 id="header" class="Title">Sparkler animation</h1>
+  <canvas id="Animation" onclick="canvaSparkle()"></canvas>
+  <p>I will probably go on to expand to make electricity with this spark object or something</p>
+  <script src="Spark.js">
+  <script src="Firework.js">
+  <script>
+    function range(no) {
+      var arr = [];
+      for(let i = 0; i < no; i++){arr.push(i);}
+      return arr;
+    }
+    function canvaSparkle() {
+      var sparks = [];
+      // create a spark-like shape using the vertex of a pentagon
+      var inside = document.createElement("path");
+      let pos = {x:10,y:10,length:1};
+      let preCalc = {top:{dx:pos.length*cos(PI*72/180),dy:pos.length*sin(PI*72/180)},btm:{dx:pos.length*cos(PI*54/180),dy:-pos.length*sin(PI*54/180)}};
+      //Starting from the top right corner
+      let vertex = {0:{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},1:{x:pos.x,y:pos.y-pos.length},2:{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
+                      3:{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},4:{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy}}
+      inside.d = "M"
+      for(let i in vertex){inside.d += " "+i.x+" "+i.y;}
+      for(let i in range(10)){
+        let svg = document.createElement("svg");
+        svg.width = "100";
+        svg.height = "100";
+        svg.appendChild(inside)
+        sparks.push(svg);
+      }
+      for(let spark of sparks) { // I don't know what the diff between this and forEach is so I just use this.
+         document.getElementById("Animation").appendChild(spark);
+         
+      }
+    }
+    // On / Off function
+    function toggle(bool) {
+      boolDict[bool] = !boolDict[bool];
+    }
+    // Show / Hide function;
+    function tShow(object) {
+      document.getElementById(object).style.display = 
+        document.getElementById(object).style.display == "block"? "none":"block";
+    }
+  </script>
+</body></html>
