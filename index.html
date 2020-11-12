@@ -6,6 +6,20 @@
   <link href="style.css" onload="this.onload = null;this.rel='stylesheets'">
 </head>
 <body id="Start">
+  <svg id="shape" width="500" height="500">
+  </svg>
+  <script>
+    var svg = document.getElementById('shape');
+    var path = document.createElement('path');
+    path.d = "M"
+    let pos = {x:10,y:10,length:1};
+    let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*72/180),dy:pos.length*Math.sin(Math.PI*72/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
+    //Starting from the top right corner
+    let vertex = {0:{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},1:{x:pos.x,y:pos.y-pos.length},2:{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
+                    3:{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},4:{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy}}
+    for(let i in vertex){path.d += " q"+i.x+" "+i.y;}
+    svg.appendChild(path);
+  </script>
   <div id="Top">
   <header>
     <h1 class="Title">Front Page</h1>
@@ -13,10 +27,13 @@
   </header>
   </div>
   <div class="Box-container">
-    <div class="Fcell"></div>
-    <div class="Fcell"></div>
-    <div class="Fcell"></div>
-    <div class="Fcell"></div>
+    <div class="Frow">
+      <div class="Fcell"></div>
+      <div class="Fcell"></div>
+      <div class="Fcell"></div>
+      <div class="Fcell"></div>
+      ::after
+    </div>
   </div>
   <div class="Folder-box">
     <div id="Folder box" class="Folder box">
