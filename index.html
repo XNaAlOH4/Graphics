@@ -27,6 +27,7 @@
     for(let i = 1; i < vertex.length; i++){
       path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1].x)+" "+JSON.stringify(pos.y-vertex[i-1].y)+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));
     }
+    document.getElementById('Start').appendChild(svg);
     svg.appendChild(path);
     path.style = "display:block";
   </script>
