@@ -32,7 +32,7 @@
       let vertex = {0:{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},1:{x:pos.x,y:pos.y-pos.length},2:{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
                       3:{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},4:{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy}}
       inside.d = "M"
-      for(let i in vertex){inside.d += " "+i.x+" "+i.y;}
+      for(let i in vertex){inside.d += " q"+i.x+" "+i.y;}
       for(let i in range(10)){
         let svg = document.createElement("svg");
         svg.width = "100";
