@@ -9,6 +9,9 @@
   <svg id="shape" width="500" height="500">
   </svg>
   <script>
+    var svg = document.createElement('svg');
+    svg.setAttribute('width', "500");
+    svg.setAttribute('height', "500");
     var path = document.createElement('path');
     path.id = "path";
     path.setAttribute('fill', "#3AF");
@@ -24,7 +27,7 @@
     for(let i = 1; i < vertex.length; i++){
       path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1].x)+" "+JSON.stringify(pos.y-vertex[i-1].y)+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));
     }
-    document.getElementById('shape').appendChild(path);
+    svg.appendChild(path);
     path.style = "display:block";
   </script>
   <div id="Top">
