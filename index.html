@@ -12,6 +12,7 @@
   <script>
     var path = document.createElement('path');
     path.id = "path";
+    path.fill = "#3AF";
     let pos = {x:10,y:10,length:1};
     path.setAttribute('d',"M"+pos.x+" "+(pos.y+pos.length));
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*72/180),dy:pos.length*Math.sin(Math.PI*72/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
