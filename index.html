@@ -12,8 +12,8 @@
   <script>
     var path = document.createElement('path');
     path.id = "path";
-    path.d = "M";
     let pos = {x:10,y:10,length:1};
+    path.d = "M"+pos.x+" "+pos.y;
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*72/180),dy:pos.length*Math.sin(Math.PI*72/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
     //Starting from the top right corner
     let vertex = {0:{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},1:{x:pos.x,y:pos.y-pos.length},2:{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
