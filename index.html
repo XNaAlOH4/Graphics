@@ -35,12 +35,12 @@
     path.setAttribute('fill', "#3AF");
     path.setAttribute('stroke', "#393939");
     path.setAttribute('stroke-weight', "3")
-    let pos = {x:100,y:100,length:100};
+    let pos = {x:200,y:200,length:100};
     path.setAttribute('d',"M"+pos.x+" "+(pos.y+pos.length));
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*18/180),dy:pos.length*Math.sin(Math.PI*18/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
     //Starting from the top right corner
-    let vertex = [{x:pos.x,y:pos.y+pos.length},{x:pos.x+preCalc.top.dx,y:pos.y-preCalc.top.dy},{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
-                  {x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy},
+    let vertex = [{x:pos.x,y:pos.y-pos.y.length},{x:pos.x+preCalc.top.dx,y:pos.y-preCalc.top.dy},
+                  {x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},
                   {x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y+pos.length}]
     for(let i = 1; i < vertex.length; i++){
       path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1].x)+" "+JSON.stringify(pos.y-vertex[i-1].y)+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));
