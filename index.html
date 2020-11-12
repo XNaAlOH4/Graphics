@@ -20,7 +20,7 @@
     let vertex = [{x:pos.x,y:pos.y+pos.length},{x:pos.x+preCalc.top.dx,y:pos.y-preCalc.top.dy},{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
                   {x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy},
                   {x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y+pos.length}]
-    for(let i = 1; i < vertex.length; i++){path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1])+" "+JSON.stringify(pos.y-vertex[i-1])+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));}
+    for(let i = 1; i < vertex.length; i++){path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1].x)+" "+JSON.stringify(pos.y-vertex[i-1].y)+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));}
     document.getElementById('shape').appendChild(path);
   </script>
   <div id="Top">
