@@ -7,24 +7,7 @@
 </head>
 <body id="Start">
   <svg id="shape" width="500" height="500">
-    <path id="Thing" stroke="black" stroke-weight="3" d="M100 200 Q 0 -100 95.1 69.1 Q -95.1 30.9 -36.3 111.8 q -58.8 -80.9 117.58 0 q 58.78 -80.9 -36.33 -111.8 q 95.11 30.9 95.11 -69.1" />
-    <g stroke="black" stroke-width="3" fill="black">
-      <circle id="point0" cx="200" cy="200" r="3" />
-      <circle id="point1" cx="200" cy="100" r="3" />
-      <circle id="point2" cx="295.1" cy="169.1" r="3" />
-      <circle id="point3" cx="258.8" cy="280.9" r="3" />
-      <circle id="point4" cx="141.22" cy="280.9" r="3" />
-      <circle id="point5" cx="104.89" cy="169.1" r="3" />
-    </g>
-    <g font-size="30" font-family="sans-serif" fill="black" stroke="none"
-  text-anchor="middle">
-      <text x="200" y="200" dy="-10">0</text>
-      <text x="200" y="100" dy="-10">1</text>
-      <text x="295.1" y="169.1" dx="20">2</text>
-      <text x="258.8" y="280.9" dy="-10">3</text>
-      <text x="141.22" y="280.9" dy="-10">4</text>
-      <text x="104.89" y="169.1" dx="-20">5</text>
-    </g>
+    <path id="Thing" fill="#3AF" stroke="black" stroke-weight="3" d="M200 100 Q 200 200 295.1 169.1 Q 200 200 258.8 280.9 Q 200 200 141.22 280.9 Q 200 200 104.89 169.1 Q 200 200 200 100" />
   </svg>
   
   
@@ -60,7 +43,7 @@
                   {x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},
                   {x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y+pos.length}]
     for(let i = 1; i < vertex.length; i++){
-      path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1].x)+" "+JSON.stringify(pos.y-vertex[i-1].y)+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));
+      path.setAttribute('d',path.getAttribute('d')+" Q200 200 "+vertex[i].x+" "+vertex[i].y);
     }
     document.getElementById('shape').appendChild(path);
     document.getElementById("shape").setAttribute("style","display:none");
