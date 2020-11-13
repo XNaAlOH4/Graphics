@@ -25,18 +25,22 @@
     function canvaSparkle() {
       var sparks = [];
       // create a spark-like shape using the vertex of a pentagon
-      var inside = document.createElement("path");
+      var inside = document.createElementNS('http://www.w3.org/2000/svg','path');
+      inside.setAttribute('fill', "#3AF");
+      inside.setAttribute('stroke', "#393939");
+      inside.setAttribute('stroke-weight', "3");
       let pos = {x:10,y:10,length:1};
-      let preCalc = {top:{dx:pos.length*cos(PI*72/180),dy:pos.length*sin(PI*72/180)},btm:{dx:pos.length*cos(PI*54/180),dy:-pos.length*sin(PI*54/180)}};
+      inside.setAttribute('d',"M"+pos.x+" "+(pos.y-pos.length));
+      let preCalc = {top:{dx:pos.length*cos(PI*18/180),dy:pos.length*sin(PI*18/180)},btm:{dx:pos.length*cos(PI*54/180),dy:-pos.length*sin(PI*54/180)}};
       //Starting from the top right corner
-      let vertex = {0:{x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},1:{x:pos.x,y:pos.y-pos.length},2:{x:pos.x+preCalc.top.dx,y:pos.y+preCalc.top.dy},
-                      3:{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},4:{x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy}}
-      inside.d = "M"
-      for(let i in vertex){inside.d += " q"+i.x+" "+i.y;}
+      let vertex = [{x:pos.x+preCalc.top.dx,y:pos.y-preCalc.top.dy},
+                  {x:pos.x+preCalc.btm.dx,y:pos.y-preCalc.btm.dy},{x:pos.x-preCalc.btm.dx,y:pos.y-preCalc.btm.dy},
+                  {x:pos.x-preCalc.top.dx,y:pos.y-preCalc.top.dy},{x:pos.x,y:pos.y-pos.length}]
+      for(let i of vertex){inside.setAttribute('d',inside.getAttribute('d')+" Q200 200 "+i.x+" "+i.y);}
       for(let i in range(10)){
         let svg = document.createElement("svg");
-        svg.width = "100";
-        svg.height = "100";
+        svg.width = "30";
+        svg.height = "30";
         svg.appendChild(inside)
         sparks.push(svg);
       }
