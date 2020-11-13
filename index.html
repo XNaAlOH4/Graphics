@@ -27,9 +27,6 @@
   </svg>
   
   <script>
-    var svg = document.createElement('svg');
-    svg.setAttribute('width', "500");
-    svg.setAttribute('height', "500");
     var path = document.createElement('path');
     path.id = "path";
     path.setAttribute('fill', "#3AF");
@@ -46,6 +43,8 @@
       path.setAttribute('d',path.getAttribute('d')+" q"+JSON.stringify(pos.x-vertex[i-1].x)+" "+JSON.stringify(pos.y-vertex[i-1].y)+" "+JSON.stringify(vertex[i].x-pos.x)+" "+JSON.stringify(vertex[i].y-pos.y));
     }
     document.getElementById('shape').appendChild(path);
+    document.getElementById(“shape”).setAttribute(“style”,”display:none”);
+    document.getElementById(“shape”).setAttribute(“style”,”display:block”);
   </script>
   <div id="Top">
   <header>
