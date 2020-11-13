@@ -30,24 +30,22 @@
     </div>
   </div>
   <script>
-    var path = document.createElement('path');
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.id = "path";
     path.setAttribute('fill', "#3AF");
     path.setAttribute('stroke', "#393939");
     path.setAttribute('stroke-weight', "3")
     let pos = {x:200,y:200,length:100};
-    path.setAttribute('d',"M"+pos.x+" "+(pos.y+pos.length));
+    path.setAttribute('d',"M"+pos.x+" "+(pos.y-pos.length));
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*18/180),dy:pos.length*Math.sin(Math.PI*18/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
     //Starting from the top right corner
-    let vertex = [{x:pos.x,y:pos.y-pos.y.length},{x:pos.x+preCalc.top.dx,y:pos.y-preCalc.top.dy},
-                  {x:pos.x+preCalc.btm.dx,y:pos.y+preCalc.btm.dy},{x:pos.x-preCalc.btm.dx,y:pos.y+preCalc.btm.dy},
-                  {x:pos.x-preCalc.top.dx,y:pos.y+preCalc.top.dy},{x:pos.x,y:pos.y+pos.length}]
-    for(let i = 1; i < vertex.length; i++){
-      path.setAttribute('d',path.getAttribute('d')+" Q200 200 "+vertex[i].x+" "+vertex[i].y);
+    let vertex = [{x:pos.x+preCalc.top.dx,y:pos.y-preCalc.top.dy},
+                  {x:pos.x+preCalc.btm.dx,y:pos.y-preCalc.btm.dy},{x:pos.x-preCalc.btm.dx,y:pos.y-preCalc.btm.dy},
+                  {x:pos.x-preCalc.top.dx,y:pos.y-preCalc.top.dy},{x:pos.x,y:pos.y-pos.length}]
+    for(let i of vertex){
+      path.setAttribute('d',path.getAttribute('d')+" Q200 200 "+i.x+" "+i.y);
     }
     document.getElementById('shape').appendChild(path);
-    document.getElementById("shape").setAttribute("style","display:none");
-    document.getElementById("shape").setAttribute("style","display:block");
   </script>
   <script src="FolderManager.js"></script>
 </body></html>
