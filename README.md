@@ -9,4 +9,5 @@ Trying to create/recreate something visually in html.
 
 I don't know what I'm doing hopefully if anyone reads this what I make is not trash.
 
-I will be importing the p5.js Library to assist in case I decide to make 3d graphics.
+I will be importing the p5.js Library to assist in case I decide to make 3d graphics
+and also probably so I don't have to type "Math.".
