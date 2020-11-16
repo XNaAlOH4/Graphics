@@ -16,28 +16,45 @@
     <a href="#container" style="color:#37f1f1">See all Files</a>
   </header>
   </div>
-  <div class="F-box">
-    <div class="Frow">
-      <div id="Fc-0-0" class="Fcell"></div>
-      <div class="Fcell"></div>
-      <div class="Fcell"></div>
-      <div class="Fcell"></div>
-    </div>
+  <div id="Middle">
+
   </div>
-  <div class="Folder-box">
-    <div id="Folder box" class="Folder box">
-    </div>
+
+  <div id="F-box" class="F-box">
+  	<div class="grid-container">
+	  <div class="Frow">
+	    <div id="Fc-0-0" class="Fcell"></div>
+	    <div id="Fc-1-0" class="Fcell"></div>
+	    <div id="Fc-2-0" class="Fcell"></div>
+	    <div id="Fc-3-0" class="Fcell"></div>
+	  </div>
+	  <div class="Frow">
+	    <div id="Fc-0-1" class="Fcell"></div>
+	    <div id="Fc-1-1" class="Fcell"></div>
+	    <div id="Fc-2-1" class="Fcell"></div>
+	    <div id="Fc-3-1" class="Fcell"></div>
+	  </div>
+	</div>
+	<div class="cell-container">
+
+	</div>
   </div>
+
+  <div id="Bottom">
+  </div>
+
   <script>
-    function MakeF_Icon() {
-  	  var body = document.createElement('div');
+  	function MakeF_Icon(x,y) {
+      var body = document.createElement('div');
       var flap = document.createElement('div');
       body.setAttribute("class","Folder-body");
       flap.setAttribute("class","Folder-flap");
-      document.getElementById('Fc-0-0').appendChild(flap);
-      document.getElementById('Fc-0-0').appendChild(body);
+      document.getElementById('Fc-'+x+'-'+y).appendChild(flap);
+      document.getElementById('Fc-'+x+'-'+y).appendChild(body);
   	}
-    MakeF_Icon();
+  	for(let i = 0; i < 2; i++) {
+  	  for(let j = 0; j < 4; j++) {MakeF_Icon(j,i);}
+  	}
     var path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.id = "path";
     path.setAttribute('fill', "#3AF");
