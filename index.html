@@ -20,7 +20,7 @@
   	<div class="grid-container">
 	  <div class="Frow">
 	    <div id="Fc-0-0" class="Fcell">
-	      <svg id="shape" style="position:absolute">
+	      <svg id="shape" width="50" height="50" style="position:absolute">
   	      </svg>
 	    </div>
 	    <div id="Fc-1-0" class="Fcell"></div>
@@ -59,7 +59,7 @@
     path.setAttribute('fill', "#f77c5f");
     path.setAttribute('stroke', "#393939");
     path.setAttribute('stroke-weight', "3")
-    let pos = {x:50,y:50,length:50};
+    let pos = {x:20,y:20,length:20};
     path.setAttribute('d',"M"+pos.x+" "+(pos.y-pos.length));
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*18/180),dy:pos.length*Math.sin(Math.PI*18/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
     //Starting from the top right corner
