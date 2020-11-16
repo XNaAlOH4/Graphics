@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="style.css" onload="this.onload = null;this.rel='stylesheet'">
 </head>
 <body id="Start">
-  <svg id="shape" width="100" height="100">
+  <svg id="shape" width="200" height="200">
   </svg>
   
   
@@ -60,7 +60,7 @@
     path.setAttribute('fill', "#3AF");
     path.setAttribute('stroke', "#393939");
     path.setAttribute('stroke-weight', "3")
-    let pos = {x:200,y:200,length:100};
+    let pos = {x:100,y:100,length:100};
     path.setAttribute('d',"M"+pos.x+" "+(pos.y-pos.length));
     let preCalc = {top:{dx:pos.length*Math.cos(Math.PI*18/180),dy:pos.length*Math.sin(Math.PI*18/180)},btm:{dx:pos.length*Math.cos(Math.PI*54/180),dy:-pos.length*Math.sin(Math.PI*54/180)}};
     //Starting from the top right corner
