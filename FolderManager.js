@@ -1,14 +1,18 @@
 // Html Manager
 class HM {
   constructor() {
-    
+    this.files = {};
   }
   makeFolders() {
-    var document.getElementById("")
+    var folder = document.createElement("div");
+    folder.class = "";
+    folder.setAttribute("id","");
   }
 
-  addFolders() {
-    
+  addFolders(list) {
+    for(let i of list) {
+       document.getElementById("Folder-Box").appendChild(i);
+    }
   }
 }
 
