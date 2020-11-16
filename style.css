@@ -37,6 +37,7 @@ body {
   border-left: solid #888888;
   border-top: solid #555555;
   border-radius: 0 10px 0px 10px;
+  cursor: pointer;
 }
 .Fcell:last-child {
   margin-right: 25%; 
