@@ -16,9 +16,9 @@
     <a href="#container" style="color:#37f1f1">See all Files</a>
   </header>
   </div>
-  <div class="Box-container">
+  <div class="F-box">
     <div class="Frow">
-      <div class="Fcell"></div>
+      <div id="Fc-0-0" class="Fcell"></div>
       <div class="Fcell"></div>
       <div class="Fcell"></div>
       <div class="Fcell"></div>
@@ -29,6 +29,20 @@
     </div>
   </div>
   <script>
+    function MakeF_Icon() {
+  	  var svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+      svg.setAttribute('width',100);svg.setAttribute('height',100);
+      var body = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      var flap = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      body.setAttribute('x',10);body.setAttribute('y',10);
+      body.setAttribute('width',80);body.setAttribute('height',70);body.setAttribute('rx',10);body.setAttribute('ry',10);
+      //flap.setAttribute('x',0);flap.setAttribute('y',0);
+      flap.setAttribute('width',80);flap.setAttribute('height',10);flap.setAttribute('rx',10);flap.setAttribute('ry',10);
+      svg.appendChild(body);
+      svg.appendChild(flap);
+      document.getElementById('Fc-0-0').appendChild(svg);
+  	}
+    MakeF_Icon();
     var path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.id = "path";
     path.setAttribute('fill', "#3AF");
