@@ -68,7 +68,7 @@
                   {x:pos.x+preCalc.btm.dx,y:pos.y-preCalc.btm.dy},{x:pos.x-preCalc.btm.dx,y:pos.y-preCalc.btm.dy},
                   {x:pos.x-preCalc.top.dx,y:pos.y-preCalc.top.dy},{x:pos.x,y:pos.y-pos.length}]
     for(let i of vertex){
-      path.setAttribute('d',path.getAttribute('d')+" Q200 200 "+i.x+" "+i.y);
+      path.setAttribute('d',path.getAttribute('d')+" Q"+pos.x+" "+pos.y+ "+i.x+" "+i.y);
     }
     document.getElementById('shape').appendChild(path);
   </script>
