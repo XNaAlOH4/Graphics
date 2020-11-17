@@ -14,6 +14,16 @@ class vector {
     this.y = vec.y;
     this.z = vec.z;
   }
+  mult(factor) {
+    this.x = this.x * factor;
+    this.y = this.y * factor;
+    this.z = this.z * factor;
+  }
+  div(factor) {
+    this.x = this.x / factor;
+    this.y = this.y / factor;
+    this.z = this.z / factor;
+  }
 }
 
 class Spark {
