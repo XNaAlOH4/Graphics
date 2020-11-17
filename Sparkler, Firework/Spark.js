@@ -50,7 +50,7 @@ class Spark {
     var org = JSON.parse(JSON.stringify(ctx.lineWidth));
     ctx.lineWidth = this.radius;
     ctx.beginPath();
-    ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*PI);
+    ctx.arc(this.pos.x,this.pos.y,this.radius/2,0,2*PI);
     ctx.stroke();
     ctx.lineWidth = org;
   }
