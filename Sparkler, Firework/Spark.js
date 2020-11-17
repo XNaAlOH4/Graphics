@@ -65,11 +65,6 @@ class Flame {
     this.color = {r:255,g:255,b:255};
   }
   
-  colorMap(mat) {
-    let color = {r:255,g:255,b:255};
-    return colour;
-  }
-  
   setRGB(r,g,b) {
     this.color.r = r;
     this.color.g = g;
@@ -77,11 +72,8 @@ class Flame {
   }
   
   mapColor(material) {
-    this.color =  this.colorMap[material];
-  }
-  
-  updateColor() {
-     
+    let colour = {r:255,g:255,b:255};
+    this.color =  colour;
   }
   
   blow(wind) {
@@ -91,6 +83,7 @@ class Flame {
   update() {
     for(let i of this.plasma) {
       i.move();
+      i.alpha -= 1;
     }
   }
   
