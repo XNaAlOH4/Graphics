@@ -27,7 +27,7 @@ class vector {
 }
 
 class Spark {
-  constructor(x,y,r) {
+  constructor(x,y,r=1) {
     this.pos = new vector(x,y);
     this.vel = new vector();
     this.acc = new vector();
