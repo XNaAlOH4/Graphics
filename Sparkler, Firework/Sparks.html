@@ -55,8 +55,8 @@
     }
     // Show / Hide function;
     function tShow(object) {
-      document.getElementById(object).style.display = 
-        document.getElementById(object).style.display == "block"? "none":"block";
+      document.getElementById(object).setAtrribute('style','display: '+ 
+        ('display: block' in document.getElementById(object).getAtrribute('style'))? "none":"block");
     }
   </script>
 </body></html>
