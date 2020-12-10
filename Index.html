@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="github.com/XNaAlOH4/JS_Library/PhysicsEngine.js"></script>
+  <!-- <script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.min.js"></script> -->
+  <!-- <IfModule mod_setenvif.c>
+  <IfModule mod_headers.c>
+    <FilesMatch "\.(bmp|cur|gif|ico|jpe?g|png|svgz?|webp|avifs?)$"">
+      SetEnvIf Origin ":" IS_CORS
+      Header set Access-Control-Allow-Origin "*" env=IS_CORS
+    </FilesMatch>
+  </IfModule>
+</IfModule> -->
+<style>
+	head,body {
+	  padding:0;
+	  margin:0;
+	  border:0;
+	}
+  canvas {
+    padding:0;
+    margin:0;
+  }
+</style>
+</head>
+<body>
+  <canvas id="box"></canvas>
+  <script>
+    var growthRate = 1, spawnRate = 5;
+    var canvas = document.getElementById("box");
+    var ctx = canvas.getContext('2d');
+    var grids = 4, notEmpty = false, spawnTries = 0;
+    var spots = [];
+    var largest = 0;
+
+    function createCanvas(canvas, x, y) {
+      canvas.width = x;
+      canvas.height = y;
+      canvas.style.width = x+'px';
+      canvas.style.height = y+'px';
+    }
+
+    function background(r,g,b) {
+      ctx.fillStyle = "#"+r+g+b;
+      // ctx.fillStyle = "rgb("+r+","+g+","+b+")";
+      ctx.fillRect(0,0,canvas.width, canvas.height)
+    }
+
+    class Circle {
+      constructor(x,y,r=0) {
+        this.pos = new Vector(x,y);
+        this.r = r;
+        this.growing = true;
+        this.color = "#D0ADE0";
+      }
+
+      grow() {
+        if(this.growing) {
+          this.r += growthRate;
+        }
+      }
+
+      update() {
+      	if(!this.growing) {
+      	  return;
+      	}
+      	largest = largest < this.r? this.r: largest;
+        if(this.pos.x+this.r+2 > canvas.width || this.pos.x - this.r-2 < 0 || this.pos.y + this.r+2 > canvas.height || this.pos.y - this.r+-2 < 0) {
+          this.growing = false;
+        }
+        let circles = [];
+        let temp = this.copy();
+        // temp.r += 100;
+        qt.query(temp,circles);
+        for(let c of circles) {
+          if(!c.pos.same(this.pos)) {
+          	if(this.pos.dist(c.pos) < c.r + this.r+2) {
+          	  c.growing = false;
+	          this.growing = false;
+	          break;
+	        }
+          }
+        }
+      }
+
+      copy() {
+      	let temp = new Circle(this.pos.x,this.pos.y,this.r);
+      	temp.growing = this.growing;
+      	return temp;
+      }
+
+      show() {
+        // ctx.fillStyle = "rgb(100,180,250)"
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(this.pos.x,this.pos.y,this.r,0,2*Math.PI);
+        ctx.stroke();
+      }
+    }
+
+    class QuadTree {
+      constructor(vec, w, h, limit) {
+        this.pos = vec;
+        this.width = w;
+        this.height = h;
+        this.depth = 0;
+        this.limit = limit;
+        this.objects = [];
+        this.divided = false;
+        this.quadrants = [];
+        this.draw = false;
+      }
+
+      contains(object) {
+        return ((object.pos.x <= this.pos.x+this.width && object.pos.x >= this.pos.x-this.width) && 
+       (object.pos.y <= this.pos.y+this.height && object.pos.y >= this.pos.y-this.height) && 
+       (object.pos.z <= this.pos.z+this.depth && object.pos.z >= this.pos.z-this.depth));
+      }
+
+      subdivide() {
+        for(let i = 0; i < Math.floor(Math.sqrt(grids)); i++) {
+          for(let j = 0; j < Math.floor(Math.sqrt(grids)); j++) {
+            this.quadrants.push(new QuadTree(
+            new Vector(this.pos.x+j*this.width/Math.sqrt(grids), this.pos.y+i*this.height/Math.sqrt(grids)),
+            this.width/Math.sqrt(grids),this.height/Math.sqrt(grids),
+            this.limit));
+          }
+        }
+        this.divided = true;
+      }
+
+      insert(object) {
+        if(!this.contains(object)){return false;}
+        if(this.objects.length < this.limit) {
+          this.objects.push(object);
+          return true;
+        }else {
+          if(!this.divided) {
+            this.subdivide();
+          }
+          for(let qt of this.quadrants) {if(qt.insert(object)){return true;};}
+        }
+      }
+
+      query(range, found=[]) {
+        if(!this.intersects(range)) {
+          return;
+        }else {
+          for(let p of this.objects) {
+            if(p.pos.dist(range.pos) < range.r+largest) {
+              found.push(p);
+            }
+          }
+          if(this.divided) {
+            for(let i = 0; i < grids; i++) {
+              this.quadrants[i].query(range, found);
+            }
+          }
+        }
+      }
+
+      newCircle() {
+        // var rand = Math.floor(Math.random()*spots.length);
+        // var spot = spots[rand];
+        var rand = Math.random();
+        var x, y, color;
+        switch(true) {
+          case rand <= 0.1:
+            x = Math.random()*canvas.width/2+canvas.width/2;
+            y = Math.random()*canvas.height/10+canvas.height/1.5;
+            // color="rgb(200,200,145)"
+            break;
+          case rand < 0.3:
+            x = Math.random()*canvas.width/4;
+            y = Math.random()*canvas.height/1.4+canvas.height/8;
+            // color="rgb(160,196,210)"
+            break;
+          case rand < 0.5:
+            x = Math.random()*canvas.width/2+canvas.width/3;
+            y = Math.random()*canvas.height/2+canvas.width/5;
+            // color="rgb(200,250,205)"
+            break;
+          case rand <= 0.7:
+            x = Math.random()*canvas.width*0.9+canvas.width/10;
+            y = Math.random()*canvas.height*0.9+canvas.width/10;
+            // color="rgb(80,150,190)"
+            break;
+          case rand < 0.8:
+            x = Math.random()*canvas.width*0.9+canvas.width/10;
+            y = Math.random()*canvas.height*0.9+canvas.width/10;
+            // color="rgb(190,110,55)"
+            break;
+          default:
+            x = Math.random()*canvas.width;
+            y = Math.random()*canvas.height;
+            // color="#D0ADE0"
+            break;
+        }
+        var valid = true;
+        let temp = new Circle(x,y);
+        // temp.color = color;
+        let points = [];
+        this.query(temp,points);
+        for(let c of points) {
+        	// console.log(c)
+          if(temp.pos.dist(c.pos) <= c.r) {
+          	valid = false;
+          	return 1;
+          }
+        }
+        if(valid) {
+          qt.insert(temp);
+          return 0;
+        }
+      }
+
+      show() {
+      	if(qt.draw){
+	      	ctx.strokeStyle = "black";
+	      	ctx.beginPath();
+	      	ctx.rect(this.pos.x,this.pos.y,this.width,this.height);
+	      	ctx.stroke();
+      	}
+        for(let i of this.objects) {
+          i.show();
+        }
+        for(let i of this.quadrants) {
+          i.show();
+        }
+      }
+
+      update() {
+        for(let i of this.objects) {
+          i.grow();
+          i.update();
+        }
+        for(let i of this.quadrants) {
+          i.update();
+        }
+      }
+
+      intersects(object) {
+        if(object.r != null) {
+          return !(object.pos.x - object.r > this.x + this.width || object.pos.x + object.r < this.x - this.width || object.pos.y - object.r > this.y + this.height || object.pos.y + object.r < this.y - this.height)
+          //find line intercepts of direction vector
+          //find direction vector
+          //then dtermine if intercepts lie in circle
+
+          // let dir = object.pos.copy().sub(center);
+          // let line = new Line(center, dir);
+          // let bl = new Vector(this.pos.x+this.width, this.pos.y + this.height);
+          // if(center.dist(object.pos) < this.width/2 || center.dist(object.pos) < this.height/2) {return true;}
+          // if(center.y > object.pos.y) {
+          //   var top = new Line(this.pos.copy(),new Vector(1));
+          //   if(center.x < object.pos.x) {
+          //     var right = new Line(this.pos.copy(),new Vector(0,1));
+          //     var second = line.intersect(right);
+          //   }else {
+          //     var left = new Line(bl, new Vector(0,1));
+          //     var second = line.intersect(left);
+          //   }
+          //   var first = line.intersect(top);
+          //   if(this.pos.dist(object.pos) < this.pos.dist(first)){return true;}
+          //   // console.log(second);
+          //   if(first.dist(object.pos) < object.r || second.dist(object.pos) < object.r) {return true}
+          //   return false;
+          // }else {
+          //   var bottom = new Line(bl,new Vector(1,0));
+          //   if(center.x < object.pos.x) {
+          //     var right = new Line(this.pos.copy(),new Vector(0,1));
+          //     var second = line.intersect(right);
+          //   }else {
+          //     var left = new Line(bl, new Vector(0,1));
+          //     var second = line.intersect(left);
+          //   }
+          //   var first = line.intersect(bottom);
+          //   if(this.pos.dist(object.pos) < this.pos.dist(first)){
+          //   	return true;
+          //   }
+          //   if(first.dist(object.pos) < object.r || second.dist(object.pos) < object.r) {return true}
+          //   return false;
+          // }
+        }
+        // return (object.pos.x - object.width > this.pos.x + this.width && 
+        //         object.pos.y - object.height < this.pos.y + this.height) || (object.pos.x + object.width < this.pos.x - this.width && 
+        //         object.pos.y + object.height > this.pos.y - this.height)
+      }
+    }
+
+    function brightness (color) {
+      var color = "" + color, isHEX = color.indexOf("#") == 0, isRGB = color.indexOf("rgb") == 0;
+      if (isHEX) {
+        var m = color.substr(1).match(color.length == 7 ? /(\S{2})/g : /(\S{1})/g);
+        if (m) var r = parseInt(m[0], 16), g = parseInt(m[1], 16), b = parseInt(m[2], 16);
+      }
+      if (isRGB) {
+        var m = color.match(/(\d+){3},/g);
+        for(let i of color.match(/{\d+}{3})/g)){m.push(i);}
+        var m1 = color.match(/(\d+){2},/g);
+        for(let i of color.match(/{\d+}{2})/g)){m1.push(i);}
+        var m2 = color.match(/(\d+){1},/g);
+        for(let i of color.match(/{\d+}{1})/g)){m2.push(i);}
+        console.log(m,m1,m2)
+
+        if (m||m1||m2) var r = m[0]||m1[0]||m2[0], g = m[1]||m1[1]||m2[1], b = m[2]||m1[2]||m2[2];
+      }
+      if (typeof r != "undefined") {
+        return ((r*299)+(g*587)+(b*114))/1000;
+      }else {return null;}
+    }
+
+    function setup() {
+      createCanvas(canvas, window.outerWidth-225, window.outerHeight-125);
+      background(0,0,0)
+      ctx.fillStyle = "rgb(255,255,255)"
+      ctx.font = "400px sans-serif"
+      ctx.textAlign = "center";
+      ctx.fillText("2020", canvas.width/2, canvas.height/2+125)
+      // for(let x = 0; x < canvas.width; x++) {
+      //   for(let y = 0; y < canvas.height; y++) {
+      //     var index = x + y * canvas.width;
+      //     var c = ctx.getImageData(x,y,1,1);
+      //     var b = brightness(c);
+      //     if(b > 1) {
+      //       spots.push(new Vector(x,y))
+      //     }
+      //   }
+      // }
+      // ctx.drawImage(img,0,0);
+
+      qt = new QuadTree(new Vector(0,0),
+               canvas.width, canvas.height,
+               4);
+      for(let i = 0; i < 10; i++) {
+      	qt.newCircle();
+      }
+    }
+
+    function draw() {
+      background(100,120,150)
+      qt.show();
+      qt.update();
+      for(let i = 0; i < spawnRate; i++) {
+        spawnTries += qt.newCircle();
+      }
+      if(spawnTries > 20000) {
+      	clearInterval(drawing);
+      }
+      // ctx.drawImage(img,0,0);
+    }
+    setup();
+    var drawing = setInterval(draw,100);
+  </script>
+</body>
+</html>
