@@ -162,44 +162,44 @@
       }
 
       newCircle() {
-        var rand = Math.floor(Math.random()*spots.length);
-        var spot = spots[rand];
-        // var rand = Math.random();
-        // var x, y, color;
-        // switch(true) {
-        //   case rand <= 0.1:
-        //     x = Math.random()*canvas.width/2+canvas.width/2;
-        //     y = Math.random()*canvas.height/10+canvas.height/1.5;
-        //     // color="rgb(200,200,145)"
-        //     break;
-        //   case rand < 0.3:
-        //     x = Math.random()*canvas.width/4;
-        //     y = Math.random()*canvas.height/1.4+canvas.height/8;
-        //     // color="rgb(160,196,210)"
-        //     break;
-        //   case rand < 0.5:
-        //     x = Math.random()*canvas.width/2+canvas.width/3;
-        //     y = Math.random()*canvas.height/2+canvas.width/5;
-        //     // color="rgb(200,250,205)"
-        //     break;
-        //   case rand <= 0.7:
-        //     x = Math.random()*canvas.width*0.9+canvas.width/10;
-        //     y = Math.random()*canvas.height*0.9+canvas.width/10;
-        //     // color="rgb(80,150,190)"
-        //     break;
-        //   case rand < 0.8:
-        //     x = Math.random()*canvas.width*0.9+canvas.width/10;
-        //     y = Math.random()*canvas.height*0.9+canvas.width/10;
-        //     // color="rgb(190,110,55)"
-        //     break;
-        //   default:
-        //     x = Math.random()*canvas.width;
-        //     y = Math.random()*canvas.height;
-        //     // color="#D0ADE0"
-        //     break;
-        // }
+        // var rand = Math.floor(Math.random()*spots.length);
+        // var spot = spots[rand];
+        var rand = Math.random();
+        var x, y, color;
+        switch(true) {
+          case rand <= 0.1:
+            x = Math.random()*canvas.width/2+canvas.width/2;
+            y = Math.random()*canvas.height/10+canvas.height/1.5;
+            // color="rgb(200,200,145)"
+            break;
+          case rand < 0.3:
+            x = Math.random()*canvas.width/4;
+            y = Math.random()*canvas.height/1.4+canvas.height/8;
+            // color="rgb(160,196,210)"
+            break;
+          case rand < 0.5:
+            x = Math.random()*canvas.width/2+canvas.width/3;
+            y = Math.random()*canvas.height/2+canvas.width/5;
+            // color="rgb(200,250,205)"
+            break;
+          case rand <= 0.7:
+            x = Math.random()*canvas.width*0.9+canvas.width/10;
+            y = Math.random()*canvas.height*0.9+canvas.width/10;
+            // color="rgb(80,150,190)"
+            break;
+          case rand < 0.8:
+            x = Math.random()*canvas.width*0.9+canvas.width/10;
+            y = Math.random()*canvas.height*0.9+canvas.width/10;
+            // color="rgb(190,110,55)"
+            break;
+          default:
+            x = Math.random()*canvas.width;
+            y = Math.random()*canvas.height;
+            // color="#D0ADE0"
+            break;
+        }
         var valid = true;
-        let temp = new Circle(spot.x,spot.y);
+        let temp = new Circle(x,y);
         // temp.color = color;
         let points = [];
         this.query(temp,points);
