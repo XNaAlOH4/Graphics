@@ -1,9 +1,124 @@
-function modulus(x) {
-  return x < 0? -x:x;
-}
-
 function modular(x, mod) {
   return x < 0? (x+mod)%mod: x%mod;
+}
+
+function sign(x){return x<0? -1:1}
+
+function getPrimes(start=2, limit=null) {
+  let primes = [];
+  if(limit == null) {
+    for(let i = 2; i < Math.floor(start); i++) {
+      if(long_isPrime(i)) {
+        primes.push(i);
+      }
+    }
+  }else {
+    for(let i = start; i < Math.floor(limit); i++) {
+      if(long_isPrime(i)) {
+        primes.push(i);
+      }
+    }
+  }
+  return primes;
+}
+
+function long_isPrime(x) {
+  if(x == 2|| x == 3) {
+    return true;
+  }else if(x==0 || x==1){
+    return false;
+  }
+  for(let i = 2; i <= Math.floor(Math.sqrt(x)); i++) {
+    if(x%i == 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function getPrimeFactors(x, opp=false) {
+  if(long_isPrime(x)) {
+    let temp = {};
+    temp[x] = 1;
+    return temp;
+  }
+  let PFactors = {};
+  let small_primes;
+  if(opp) {
+    small_primes = getPrimes(Math.sqrt(x), x);
+  }else {
+    small_primes = getPrimes(Math.sqrt(x));
+  }
+  let temp = x;
+  for(let i of small_primes) {
+    // Use logarithm to account for the powers 999 % 3 && 3^2 == 0 
+    if(x%i == 0) {
+      PFactors[i] = 1;
+      for(let j = 2; j < Math.floor(Math.log(x,i)); j++) {
+        if(x%Math.pow(i,j) == 0) {
+          PFactors[i] = j;
+        }else {
+          temp = temp/Math.pow(i,j-1);
+          break;}
+      }
+    }
+  }
+  switch(true) {
+      case long_isPrime(temp):
+        PFactors[temp] = 1;
+        break;
+      case temp == 1:
+        break;
+      default:
+        let tem = getPrimeFactors(temp, true);
+        Object.keys(tem).forEach(function(key) {
+          PFactors[key] = tem[key];
+        });
+        break;
+    }
+  return PFactors;
+}
+
+function LCM(x,y,xIntoy=false) {
+  let PrimeX = getPrimeFactors(x);
+  let PrimeY = getPrimeFactors(y);
+  let lcm = 1;
+  let lcm_2 = 1;
+  // find all common primes
+  Object.keys(PrimeX).forEach(function(key) {
+    lcm *= Math.pow(key,PrimeY[key] > PrimeX[key]? PrimeY[key]:PrimeX[key]);
+    delete PrimeY[key];
+  });
+  Object.keys(PrimeY).forEach(function(key) {
+    lcm_2 *= Math.pow(key,PrimeY[key]);
+    lcm *= Math.pow(key,PrimeY[key]);
+  });
+  if(xIntoy){return lcm_2;}
+  return lcm;
+}
+
+function HCF(x,y=null) {
+  var fac = 1;
+  if(y == null) {
+    let Primes = [];
+    for(let i of x) {
+      Primes.push(getPrimeFactors(i));
+    }
+
+  }else {
+    let PrimeX = getPrimeFactors(x);
+    let PrimeY = getPrimeFactors(y);
+    Object.keys(PrimeX).forEach(function(key) {
+      if(key in PrimeY) {
+        if(PrimeX[key] < PrimeY[key]){
+          fac *= Math.pow(key,PrimeX[key]);
+        }else {
+          fac += Math.pow(key,PrimeY[key]);
+        }
+      }
+    });
+  }
+  return fac;
 }
 
 function range(start, stop=null) {
@@ -22,28 +137,31 @@ function range(start, stop=null) {
 
 function isIter(obj) {
   // checks for null and undefined
-  if (obj == null) {
-    return false;
+  switch(true) {
+    case obj == null:
+      return false;
+    case obj[0] == null:
+      return false;
+    default:
+      return typeof obj[Symbol.iterator] === 'function';
   }
-  return typeof obj[Symbol.iterator] === 'function';
 }
 
 class SortingHandler {
   constructor(data) {
   	this.dlist = data;
-  	this.choose();
   }
 
-  choose() {
+  sort() {
   	var len = this.dlist.length;
   	switch(true) {
   	  case len < 25:
   	  	this.bubble(len);
   	    break;
-  	  case len < 250:
+  	  case len < 2500:
   	    this.quick(this.decide_partition());
   	    break;
-  	  case len < 1000:
+  	  case len < 10000:
   	    this.radix(len);
   	    break;
   	}
@@ -94,7 +212,7 @@ class SortingHandler {
   }
 
   decide_partition() {
-  	
+  	return false;
   }
 
   async quick(array=this.dlist, start=0, end=this.dlist.length, lomuto=true) {
@@ -149,9 +267,14 @@ class Vector {
     }
   }
 
-  add(vec,y,z) {
+  add(vec,y=0,z=0) {
     switch(vec.x) {
       case null:
+        this.x += vec;
+        this.y += y;
+        this.z += z;
+        break;
+      case undefined:
         this.x += vec;
         this.y += y;
         this.z += z;
@@ -164,25 +287,44 @@ class Vector {
     }
   }
 
-  sub(vec,y,z) {
+  sub(vec,y=0,z=0) {
     switch(vec.x) {
       case null:
         this.x -= vec;
         this.y -= y;
         this.z -= z;
-        break;
+        return new Vector(this.x-vec,this.y-y,this.z-z);
+      case undefined:
+        this.x -= vec;
+        this.y -= y;
+        this.z -= z;
+        return new Vector(this.x-vec,this.y-y,this.z-z);
       default:
         this.x -= vec.x;
         this.y -= vec.y;
         this.z -= vec.z;
-        break;
+        return new Vector(this.x-vec.x,this.y-vec.y,this.z-vec.z);
     }
   }
 
   mult(factor) {
-    this.x = this.x * factor;
-    this.y = this.y * factor;
-    this.z = this.z * factor;
+    switch(factor.x) {
+      case null:
+        this.x = this.x * factor;
+        this.y = this.y * factor;
+        this.z = this.z * factor;
+        break;
+      case undefined:
+        this.x = this.x * factor;
+        this.y = this.y * factor;
+        this.z = this.z * factor;
+        break;
+      default:
+        this.x = this.x * factor.x;
+        this.y = this.y * factor.y;
+        this.z = this.z * factor.z;
+        break;
+    }
   }
   div(factor) {
     this.x = this.x / factor;
@@ -191,7 +333,7 @@ class Vector {
   }
 
   dot(vec) {
-    let nVec = vec.unit;
+    let nVec = vec.copy();
     nVec.mult(this.mag());
     return nVec;
   }
@@ -207,6 +349,19 @@ class Vector {
     return(Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z))
   }
 
+  dist(vec, y=0, z=0) {
+    if(vec.x == null || vec.x == undefined) {
+      let X = vec - this.x;
+      let Y = y - this.y;
+      let Z = z - this.z;
+      return(Math.sqrt(X*X + Y*Y + Z*Z))
+    }
+    let X = vec.x - this.x;
+    let Y = vec.y - this.y;
+    let Z = vec.z - this.z;
+    return(Math.sqrt(X*X + Y*Y + Z*Z))
+  }
+
   set(x,y,z) {
   	switch(isIter(x)) {
   	  case true:
@@ -214,12 +369,16 @@ class Vector {
         this.y = x.y;
         this.z = x.z;
         break;
-      default:
+      case false:
         this.x = x;
         this.y = y;
         this.z = z;
         break;
   	}
+  }
+
+  same(vec) {
+    return this.x == vec.x && this.y == vec.y && this.z == vec.z;
   }
 
   copy(){
@@ -244,16 +403,24 @@ class Line {
 
   intersect(line) {
     //make the simultaneous equations
-    let matrix = [[this.dir.x, line.dir.x],
-    [this.dir.y, line.dir.y],[this.dir.z, line.dir.z]];
-    let ans = line.pos.copy();
-    ans.sub(this.pos);
-    let solver = new Simul_Eqn(matrix, ans);
-    return solver.solve();
-  }
 
-  cross() {
+    // let matrix = [[this.dir.x, line.dir.x],
+    // [this.dir.y, line.dir.y],[this.dir.z, line.dir.z]];
+    // let ans = line.pos.copy();
+    // ans.sub(this.pos);
+    // let solver = new Simul_Eqn(matrix, ans);
+    // return solver.solve();
 
+    let matrix = new Matrix([[-line.dir.y, line.dir.x],[-this.dir.y,this.dir.x]]);
+    matrix.multRows(1/matrix.determinant());
+    let ans = new Matrix([[line.pos.x-this.pos.x],[line.pos.y-this.pos.y]])
+    let result = matrix.mult(ans);
+    if(this.dir.z*result.rows[0] - line.dir.z*result.rows[1] == line.pos.z - this.pos.z) {
+      return new Vector(this.pos.x + this.dir.x*result.rows[0],
+        this.pos.y + this.dir.y*result.rows[0],
+        this.pos.z + this.dir.z*result.rows[0]);
+    }
+    return null;
   }
 
   onLine(point) {
@@ -263,8 +430,24 @@ class Line {
     return (x == y) && (x == z);
   }
 
-  footOfPerp() {
-    
+  footOfPerp(vec) {
+    // PN * dir = (ON - OP) * dir = 0
+    // ON = line
+    let temp = vec.copy();
+    temp.sub(this.pos);
+    temp.mult(this.dir);
+    let matrix =[[this.dir.x*this.dir.x, temp.x],
+    [this.dir.y*this.dir.y, temp.y],
+    [this.dir.z*this.dir.z, temp.z]];
+    let solver = new Simul_Eqn([matrix],[0,0,0]);
+
+    return solver.solve();
+  }
+
+  //dir = λ(x,y,z)
+
+  perpDist() {
+
   }
 
 }
@@ -319,7 +502,7 @@ class Matrix {
       case null:
         this.setAll(width);
         this.height = width.length;
-        this.width = width[0].length;
+        this.width = width[0].length == null? 1: width[0].length;
         break;
       default:
         this.width = width;
@@ -356,31 +539,74 @@ class Matrix {
     let iterable = isIter(values[0]);
   	switch(rowIndex) {
   	  case null:// Add the values to every row
-  	    for(let row in this.rows) {
-          if(iterable) {
+        if(iterable) {
+  	      for(let row in this.rows) {
             values[row].forEach(function(val,i){this.rows[row][i] += val;});
-          }else {
+          }
+        }else {
+          for(let row in this.rows) {
             this.rows[row] += values[row];
           }
         }
   	    break;
   	  default:// Add the values to a specific row
-        this.rows[rowIndex];
+        if(iterable) {
+          for(let i in this.rows[rowIndex]) {
+            this.rows[rowIndex][i] += values[i];
+          }
+        }else {
+          for(let i of this.rows[rowIndex]) {
+            i += values;
+          }
+        }
   	    break;
   	}
-  	switch(true) {
-  	  case this.width < 1:
-  	    this.rows.forEach()
-  	    break;
-  	  default:
-  	    this.rows.forEach((row, index, array) => {array[index].forEach();});
-  	    break;
-  	}
-    
+  }
+
+  subRow(values, rowIndex=null) {
+    let iterable = isIter(values[0]);
+    switch(rowIndex) {
+      case null:// Add the values to every row
+        if(iterable) {
+          for(let row in this.rows) {
+            for(let i in this.rows[row]) {
+              this.rows[row][i] -= values[i];
+            }
+          }
+        }else {
+          for(let row in this.rows) {
+            this.rows[row] -= values[row];
+          }
+        }
+        break;
+      default:// Add the values to a specific row
+        if(iterable) {
+          for(let i in this.rows[rowIndex]) {
+            this.rows[rowIndex][i] -= values[i];
+          }
+        }else {
+          for(let i in this.rows[rowIndex]) {
+            this.rows[rowIndex][i] -= values[i];
+          }
+        }
+        break;
+    }
   }
 
   multRow(row_, factor) {
-    this.rows[row_].forEach((row,index,array) => {array[index] *= factor});
+    if(this.width == 1) {
+      this.rows[row_] *= factor;
+    }else {
+      for(let i in this.rows[row_]) {
+        this.rows[row_][i] *= factor;
+      }
+    }
+  }
+
+  multRows(factor) {
+    for(let row in this.rows) {
+      this.multRow(row,factor);
+    }
   }
 
   listBlanks() {
@@ -421,6 +647,21 @@ class Matrix {
     return copy;
   }
 
+  mult(mat) {
+    let rows = [];
+    for(let i in mat.rows[0]) {
+      let column = mat.getColumn(i);
+      for(let j in this.rows) {
+        let sum = 0;
+        for(let k in j) {
+          sum += (this.rows[j][k]*column[k]);
+        }
+        rows.push([sum]);
+      }
+    }
+    return new Matrix(rows);
+  }
+
   identity() {
     if(!this.square) {
       console.log("Not square bro");
@@ -445,7 +686,7 @@ class Matrix {
   isDegenerate() {
     // I could've been smarter about this because truthiness is a thing
     // Meaning anything that is not 0, null or undefined is true 
-    this.determinant();
+    return this.determinant();
   }
 
   lapExp() {// get determinant using Laplace Expansion
@@ -476,23 +717,52 @@ class Matrix {
     if(det == 0) {
       return;
     }
+    // Then make sure the top-left is not 0
+    let blanks = this.listBlanks();
+    if(0 in blanks[0]) {
+      
+    }
     let temp = this.copy();
     // [A] [B] [C] | [1] [0] [0]
     // [D] [E] [F] | [0] [1] [0]
     // [G] [H] [I] | [0] [0] [1]
     let I = this.identity();
     // finish off all the bottoms first
-    for(let j = 0; j < this.width; j++) {
-      temp.multRow(j, 1/temp.rows[j][j]); I.multRow(j, 1/temp.rows[j][j]);
-      for(let i = j; i < this.height+j; i++) {
-        let temp_row = new Matrix(temp.getRow(i).slice()); let temp_2row = new Matrix(I.getRow(i).slice());
-        temp_row.multRow(i, temp.rows[(i+1)%this.width][j]); 
-        temp_2row.multRow(i, I.rows[(i+1)%this.width][j]);
-        temp.addRow(temp_row); I.addRow(temp_2row);
-      }
+
+    //Make first row 1
+    temp.multRow(0, 1/temp.rows[0][0]);
+    for(let i = 1; i < this.height; i++) {
+      let a = new Matrix([temp.getRow()]);
+      a.multRow(0,temp.rows[i][0]);
+      temp.subRow(a.getRow(),i);
     }
+    for(let i = 2; i < this.height; i++) {
+      let a = new Matrix([temp.getRow(1)]);
+      //[0, -3, -4, -2]
+      let temp_1 = sign(temp.rows[i][1])*LCM(Math.abs(a.rows[0][1]),Math.abs(temp.rows[i][1]),true);
+      let temp_2 = sign(a.rows[0][1])*LCM(Math.abs(temp.rows[i][1]),Math.abs(a.rows[0][1]),true);
+      a.multRow(0,temp_1);
+      temp.multRow(i,temp_2);
+      temp.subRow(a.getRow(),i);
+    }
+    let a = new Matrix([temp.getRow(2)]);
+    let temp_1 = sign(temp.rows[3][2])*LCM(Math.abs(a.rows[0][2]),Math.abs(temp.rows[3][2]),true);
+    let temp_2 = sign(a.rows[0][2])*LCM(Math.abs(temp.rows[3][2]),Math.abs(a.rows[0][2]),true);
+    a.multRow(0,temp_1);
+    temp.multRow(3,temp_2);
+    temp.subRow(a.getRow(),3);
+    
+    // Simplify everything
+    // for(let i = 0; i < this.height; i++) {
+    //   temp.multRow(i,1/HCF(temp.getRow));
+    // }
     temp.print();
+    return temp;
     //return I;
+  }
+
+  solve(ans) {
+
   }
 
   transpose() {
