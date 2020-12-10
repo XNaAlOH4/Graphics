@@ -272,7 +272,7 @@
     }
 
     function setup() {
-      createCanvas(canvas, window.outerWidth, window.outerHeight);
+      createCanvas(canvas, window.innerWidth, window.innerHeight);
       background(0,0,0)
       ctx.fillStyle = "rgb(255,255,255)"
       ctx.font = "400px sans-serif"
@@ -298,7 +298,7 @@
     }
 
     function draw() {
-      background(100,120,150)
+      background(0,0,0)
       qt.show();
       qt.update();
       for(let i = 0; i < spawnRate; i++) {
