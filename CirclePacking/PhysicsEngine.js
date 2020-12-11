@@ -384,12 +384,18 @@ class Vector {
     return new Vector(this.x,this.y,this.z);
   }
 
-  stringify() {
+  stringify(last) {
   	switch(this.z) {
   	  case 0:
-  	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"}";
+	    if(!last) {
+		   return "{\"x\":"+this.x+','+"\"y\":"+this.y+"}";
+	    }
+  	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"},";
   	  default:
-  	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"}";
+	    if(!last) {
+		   return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"};
+	    }
+  	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"},";
   	}
   }
 }
