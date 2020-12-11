@@ -281,6 +281,7 @@
       ctx.font = "350px Allura"
       ctx.textAlign = "center";
       ctx.fillText("Amos", canvas.width/2, canvas.height/2+125);
+			stringified = "";
 			if(localStorage.getItem("AmosImg") != null)  {
 			  spots = JSON.parse(localStorage.getItem("AmosImg"));
 			}else {
@@ -289,11 +290,12 @@
 						var c = ctx.getImageData(x,y,1,1).data;
 						var b = brightness(c);
 						if(b > 1) {
+							stringified = stringified+new Vector(x,y).stringify();
 							spots.push(new Vector(x,y))
 						}
 					}
 				}
-				localStorage.setItem("AmosImg",JSON.stringify(spots));
+				localStorage.setItem("AmosImg",stringified);
 			}
 
       qt = new QuadTree(new Vector(0,0),
