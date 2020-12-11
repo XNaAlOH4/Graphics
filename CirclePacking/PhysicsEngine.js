@@ -393,7 +393,7 @@ class Vector {
   	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"},";
   	  default:
 	    if(!last) {
-		   return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"};
+		   return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"}";
 	    }
   	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"},";
   	}
