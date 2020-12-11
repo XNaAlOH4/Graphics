@@ -387,14 +387,8 @@ class Vector {
   stringify(last) {
   	switch(this.z) {
   	  case 0:
-	    if(!last) {
-		   return "{\"x\":"+this.x+','+"\"y\":"+this.y+"},";
-	    }
   	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"}";
   	  default:
-	    if(!last) {
-		   return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"},";
-	    }
   	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"}";
   	}
   }
