@@ -387,9 +387,9 @@ class Vector {
   stringify() {
   	switch(this.z) {
   	  case 0:
-  	    return "{\"x\":"+this.x+','+"\"y\""+this.y+"}";
+  	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"}";
   	  default:
-  	    return "{\"x\":"+this.x+','+"\"y\""+this.y+"\"z\""+this.z+"}";
+  	    return "{\"x\":"+this.x+','+"\"y\":"+this.y+"\"z\":"+this.z+"}";
   	}
   }
 }
