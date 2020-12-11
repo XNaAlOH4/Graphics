@@ -290,7 +290,7 @@
 						var c = ctx.getImageData(x,y,1,1).data;
 						var b = brightness(c);
 						if(b > 1) {
-							stringified = stringified+new Vector(x,y).stringify();
+							stringified = stringified+new Vector(x,y).stringify(x*y == canvas.width*canvas.height);
 							spots.push(new Vector(x,y))
 						}
 					}
