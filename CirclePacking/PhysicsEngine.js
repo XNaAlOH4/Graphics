@@ -241,7 +241,6 @@ class Vector {
   	this.x = x;
   	this.y = y;
   	this.z = z;
-    this.type = "Vector";
   	if(isIter(x)){this.set(x);}
   }
 
@@ -384,6 +383,15 @@ class Vector {
   copy(){
     return new Vector(this.x,this.y,this.z);
   }
+
+  stringify() {
+  	switch(this.z) {
+  	  case 0:
+  	    return "{\"x\":"+this.x+','+"\"y\""+this.y+"}";
+  	  default:
+  	    return "{\"x\":"+this.x+','+"\"y\""+this.y+"\"z\""+this.z+"}";
+  	}
+  }
 }
 
 class Line {
@@ -391,7 +399,6 @@ class Line {
     // point on line = (pos) + λ(dir)
     this.pos = pos? pos:new Vector();
     this.dir = dir? dir:new Vector(1,1,1);
-    this.type = "Line";
   }
 
   angle(line, acute=true) {
@@ -458,7 +465,6 @@ class Plane {
     // r * (n) = val
     this.n = n;
     this.val = val;
-    this.type = "Plane";
   }
 
   getAngle(obj) {
