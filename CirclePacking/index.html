@@ -277,8 +277,8 @@
     function setup() {
       createCanvas(canvas, window.outerWidth, window.outerHeight);
 	    
-      background(0,0,0)
-      ctx.fillStyle = "rgb(255,255,255)"
+      background(0,0,0);
+      ctx.fillStyle = "rgb(255,255,255)";
       ctx.font = "350px Allura,cursive";
       ctx.textAlign = "center";
       ctx.fillText("Amos", canvas.width/2, canvas.height/2+125);
@@ -317,7 +317,6 @@
       if(spawnTries > 10500) {
       	clearInterval(drawing);
       }
-      // ctx.drawImage(img,0,0);
     }
     setup();
     var drawing = setInterval(draw,100);
