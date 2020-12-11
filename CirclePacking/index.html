@@ -282,6 +282,7 @@
 					var b = brightness(c);
 					if(b > 1) {
 						stringified = stringified+new Vector(x,y).stringify(x*y == canvas.width*canvas.height);
+						if(x < canvas.width) {stringified = stringified+','}
 						spots.push(new Vector(x,y))
 					}
 				}
