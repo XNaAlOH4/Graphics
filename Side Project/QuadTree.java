@@ -42,7 +42,7 @@ public class QuadTree {
         }
       }
 
-      query(range, found=[]) {
+      public ArrayList<> query(range, found=[]) {
         if(!this.intersects(range)) {
           return;
         }else {
