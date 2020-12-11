@@ -37,8 +37,8 @@
     }
 
     function background(r,g,b) {
-      ctx.fillStyle = "#"+r+g+b;
-      // ctx.fillStyle = "rgb("+r+","+g+","+b+")";
+      // ctx.fillStyle = "#"+r+g+b;
+      ctx.fillStyle = "rgb("+r+","+g+","+b+")";
       ctx.fillRect(0,0,canvas.width, canvas.height)
     }
 
@@ -159,6 +159,7 @@
       newCircle() {
         var rand = Math.floor(Math.random()*spots.length);
         var spot = spots[rand];
+				spots.splice(rand,1);
 //         var rand = Math.random();
 //         var x, y, color;
 //         switch(true) {
