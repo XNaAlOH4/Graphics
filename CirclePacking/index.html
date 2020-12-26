@@ -301,14 +301,14 @@
 			stringified = "";
 			if(localStorage.getItem("TjungImg") != null)  {
 			  try {
-			  	spots = JSON.parse(localStorage.getItem("MarkersImg"));
+			  	spots = JSON.parse(localStorage.getItem("TjungImg"));
 			  }
 			  catch {
-				localStorage.removeItem("MarkersImg");
-				checkImage(canvas,"MarkersImg");
+				localStorage.removeItem("TjungImg");
+				checkImage(canvas,"TjungImg");
 			  }
 			}else {
-				checkImage(canvas,"MarkersImg");
+				checkImage(canvas,"TjungImg");
 			}
 
       qt = new QuadTree(new Vector(0,0),
