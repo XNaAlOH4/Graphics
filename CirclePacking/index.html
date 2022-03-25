@@ -47,7 +47,7 @@
         this.pos = new Vector(x,y);
         this.r = r;
         this.growing = true;
-        this.color = "#D0ADE0";
+        this.color = "#FFFFFF";//"#D0ADE0";
       }
 
       grow() {
@@ -320,7 +320,7 @@
     }
 
     function draw() {
-      background(0,0,0)
+      background(255,255,255)
       qt.show();
       qt.update();
       for(let i = 0; i < spawnRate; i++) {
