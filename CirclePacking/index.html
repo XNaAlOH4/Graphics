@@ -297,18 +297,18 @@
       ctx.fillStyle = "rgb(255,255,255)";
       ctx.font = "200px Arial, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Tjung", canvas.width/2, canvas.height/2+125);
+      ctx.fillText("Thank you", canvas.width/2, canvas.height/2+125);
 			stringified = "";
-			if(localStorage.getItem("TjungImg") != null)  {
+			if(localStorage.getItem("ThankImg") != null)  {
 			  try {
-			  	spots = JSON.parse(localStorage.getItem("TjungImg"));
+			  	spots = JSON.parse(localStorage.getItem("ThankImg"));
 			  }
 			  catch {
-				localStorage.removeItem("TjungImg");
-				checkImage(canvas,"TjungImg");
+				localStorage.removeItem("ThankImg");
+				checkImage(canvas,"ThankImg");
 			  }
 			}else {
-				checkImage(canvas,"TjungImg");
+				checkImage(canvas,"ThankImg");
 			}
 
       qt = new QuadTree(new Vector(0,0),
