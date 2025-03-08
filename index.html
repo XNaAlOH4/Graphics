@@ -297,7 +297,7 @@
       }
       if (isRGB) {
         var m = color.match(/(\d+){3},/g);
-        for(let i of color.match(/{\d+}{3})/g)){m.push(i);}
+        for(let i of color.match(/(\d+){3})/g)){m.push(i);}
         var m1 = color.match(/(\d+){2},/g);
         for(let i of color.match(/{\d+}{2})/g)){m1.push(i);}
         var m2 = color.match(/(\d+){1},/g);
@@ -312,7 +312,7 @@
     }
 
     function setup() {
-      createCanvas(canvas, window.outerWidth, window.outerHeight);
+      createCanvas(canvas, window.outerWidth-225, window.outerHeight-125);
       background(0,0,0)
       ctx.fillStyle = "rgb(255,255,255)"
       ctx.font = "400px sans-serif"
